@@ -14,11 +14,10 @@ export default {
     src: String
   },
   mounted: function () {
+    let vm = this
+
     let request = new XMLHttpRequest()
     request.open('GET', this.src, true)
-    request.responseType = 'document'
-    request.overrideMimeType('text/xml')
-    let vm = this
     request.onload = function (e) {
       if (request.readyState === request.DONE) {
         if (request.status === 200) {
