@@ -1,18 +1,34 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <table>
+      <PuzzleListItem v-for="puzzle in puzzles" :key="puzzle" :src="puzzle"/>
+    </table>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import PuzzleListItem from '@/components/PuzzleListItem.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    PuzzleListItem
+  },
+  data: function () {
+    return {
+      puzzles: []
+    }
+  },
+  mounted: function () {
+    let today = new Date()
+    for (let i = 0; i < 14; ++i) {
+      let date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i)
+      let filename = 'la' + (date.getFullYear() % 100) +
+        ('0' + (date.getMonth() + 1)).substr(-2) +
+        ('0' + date.getDate()).substr(-2) +
+        '.xml'
+      this.puzzles.push('http://cdn.games.arkadiumhosted.com/latimes/assets/DailyCrossword/' + filename)
+    }
   }
 }
 </script>
