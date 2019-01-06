@@ -1,12 +1,13 @@
 <template>
   <div class="home">
     <table>
-      <PuzzleListItem v-for="puzzle in puzzles" :key="puzzle" :src="puzzle"/>
+      <PuzzleListItem v-for="puzzle in puzzles" :key="puzzle.id" :puzzle="puzzle"/>
     </table>
   </div>
 </template>
 
 <script>
+import puzzleGetter from '@/puzzleGetters/puzzleGetter.js'
 import PuzzleListItem from '@/components/PuzzleListItem.vue'
 
 export default {
@@ -21,13 +22,12 @@ export default {
   },
   mounted: function () {
     let today = new Date()
-    for (let i = 0; i < 14; ++i) {
-      let date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i)
-      let filename = 'la' + (date.getFullYear() % 100) +
-        ('0' + (date.getMonth() + 1)).substr(-2) +
-        ('0' + date.getDate()).substr(-2) +
-        '.xml'
-      this.puzzles.push('http://cdn.games.arkadiumhosted.com/latimes/assets/DailyCrossword/' + filename)
+    let twoWeeksAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 14)
+    for (let puzzlePromise of puzzleGetter.getPuzzlesInRange(twoWeeksAgo, today)) {
+      let vm = this
+      puzzlePromise.then(function (puzzle) {
+        vm.puzzles.push(puzzle)
+      })
     }
   }
 }
