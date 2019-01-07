@@ -18,9 +18,8 @@ export default {
     }
   },
 
-  getPuzzleById: async function (id) {
+  getPuzzleById: function (id) {
     let parsed = common.parseId(id)
-    let puzzle = await PUZZLE_SOURCES[parsed.sourceId].getPuzzle(parsed.date)
-    return puzzle
+    return PUZZLE_SOURCES[parsed.sourceId].getPuzzle(parsed.date)
   }
 }
