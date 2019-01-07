@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <table>
-      <PuzzleListItem v-for="puzzle in puzzles" :key="puzzle.id" :puzzle="puzzle"/>
+      <PuzzleListItem v-for="puzzle in sortedPuzzles" :key="puzzle.id" :puzzle="puzzle"/>
     </table>
   </div>
 </template>
@@ -18,6 +18,21 @@ export default {
   data: function () {
     return {
       puzzles: []
+    }
+  },
+  computed: {
+    sortedPuzzles: function () {
+      let newPuzzles = this.puzzles
+      newPuzzles.sort(function (a, b) {
+        if (a.date < b.date) {
+          return 1
+        } else if (a.date > b.date) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+      return newPuzzles
     }
   },
   mounted: function () {
