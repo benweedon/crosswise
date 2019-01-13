@@ -1,6 +1,7 @@
 <template>
-  <div class="puzzle">
+  <div v-if="puzzleLoaded" class="puzzlePage">
     <h1>{{ puzzle.title }}</h1>
+    <Puzzle :puzzle="puzzle"></Puzzle>
     <div v-for="cluesList in puzzle.cluesLists" :key="cluesList.id">
       <h2>{{ cluesList.title }}</h2>
       <ol>
@@ -12,9 +13,13 @@
 
 <script>
 import puzzleGetter from '@/puzzleGetters/puzzleGetter.js'
+import Puzzle from '@/components/Puzzle.vue'
 
 export default {
-  name: 'Puzzle',
+  name: 'PuzzlePage',
+  components: {
+    Puzzle
+  },
   data: function () {
     return {
       puzzle: {}
@@ -22,6 +27,11 @@ export default {
   },
   props: {
     puzzleId: String
+  },
+  computed: {
+    puzzleLoaded: function () {
+      return !!this.puzzle.id
+    }
   },
   mounted: async function () {
     this.puzzle = await puzzleGetter.getPuzzleById(this.puzzleId)
