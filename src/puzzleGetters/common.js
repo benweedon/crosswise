@@ -13,6 +13,13 @@ export default {
     }
   },
 
+  getBasePuzzleData: function (sourceId, date) {
+    return {
+      id: this.getId(sourceId, date),
+      date: date
+    }
+  },
+
   makeWebRequest: function (url) {
     return new Promise(function (resolve, reject) {
       let request = new XMLHttpRequest()

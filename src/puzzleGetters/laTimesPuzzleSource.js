@@ -1,4 +1,5 @@
 import common from './common.js'
+import crosswordCompilerParser from './parsers/CrosswordCompilerParser.js'
 
 export default {
   sourceId: 'lat',
@@ -11,12 +12,10 @@ export default {
       '.xml'
 
     let xml = await common.getPuzzleXmlData(url)
-    let title = xml.getElementsByTagName('title')[0].textContent
 
     return {
-      id: common.getId(this.sourceId, date),
-      date: date,
-      title: title
+      ...common.getBasePuzzleData(this.sourceId, date),
+      ...crosswordCompilerParser.parse(xml)
     }
   }
 }
