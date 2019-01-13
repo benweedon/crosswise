@@ -1,6 +1,8 @@
 <template>
-  <div class="puzzle" :style="styleObject">
-    <PuzzleCell v-for="cell in puzzle.cells" :key="cell.x + ',' + cell.y" :cell="cell"></PuzzleCell>
+  <div class="puzzleWrapper" :style="wrapperStyleObject">
+    <div class="puzzle" :style="styleObject">
+      <PuzzleCell v-for="cell in puzzle.cells" :key="cell.x + ',' + cell.y" :cell="cell"></PuzzleCell>
+    </div>
   </div>
 </template>
 
@@ -15,18 +17,19 @@ export default {
   props: {
     puzzle: Object
   },
-  data: function () {
-    return {
-      cellSize: 30
-    }
-  },
   computed: {
+    wrapperStyleObject: function () {
+      const width = 30
+      const heightToWidthRatio = this.height / this.width
+      return {
+        width: `${width}%`,
+        paddingBottom: `${width * heightToWidthRatio}%`
+      }
+    },
     styleObject: function () {
       return {
         gridTemplateColumns: `repeat(${this.width}, 1fr)`,
-        gridTemplateRows: `repeat(${this.height}, 1fr)`,
-        width: `${this.cellSize * this.width}px`,
-        height: `${this.cellSize * this.height}px`
+        gridTemplateRows: `repeat(${this.height}, 1fr)`
       }
     },
     width: function () {
@@ -46,7 +49,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+// Wrapper div to force the puzzle into a square shape:
+// https://stackoverflow.com/questions/1495407/maintain-the-aspect-ratio-of-a-div-with-css
+.puzzleWrapper {
+  position: relative;
+}
 .puzzle {
   display: grid;
+
+  // Stretch the puzzle to fill the wrapper div.
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
 }
 </style>
