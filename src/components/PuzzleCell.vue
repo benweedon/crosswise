@@ -32,6 +32,10 @@ export default {
   justify-content: center;
   text-align: center;
 
+  $min-size: 20px;
+  min-width: $min-size;
+  min-height: $min-size;
+
   border: 1px black solid;
 }
 .closedCell {
