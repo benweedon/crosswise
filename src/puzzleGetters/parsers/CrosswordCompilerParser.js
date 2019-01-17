@@ -48,6 +48,7 @@ function parseCrossword (crossword) {
     cell.isOpen = false
     if (cellElement.getAttribute('type') !== 'block') {
       cell.solution = cellElement.getAttribute('solution')
+      cell.isCircled = (cellElement.getAttribute('background-shape') === 'circle')
       cell.isOpen = true
       numberToCellMapping[cellElement.getAttribute('number')] = { x: cell.x, y: cell.y }
     }
