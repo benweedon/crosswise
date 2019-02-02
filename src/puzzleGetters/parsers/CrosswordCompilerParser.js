@@ -36,6 +36,12 @@ function parseMetaData (metadata) {
   }
 }
 
+function parseCharSet (rectPuzzle) {
+  return {
+    charSet: rectPuzzle.getAttribute('alphabet').split('')
+  }
+}
+
 function parseCrossword (crossword) {
   let gridElement = crossword.getElementsByTagName('grid')[0]
 
@@ -97,6 +103,7 @@ export default {
 
     return {
       ...parseMetaData(metadata),
+      ...parseCharSet(rectPuzzle),
       ...parseCrossword(crossword)
     }
   }
