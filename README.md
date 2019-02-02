@@ -1,4 +1,4 @@
-# crossword
+# crosswise
 
 ## Project setup
 ```
