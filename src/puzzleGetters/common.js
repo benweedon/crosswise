@@ -40,7 +40,8 @@ export default {
     })
   },
 
-  getPuzzleXmlData: async function (url) {
+  getPuzzleXmlData: async function (id) {
+    let url = `https://puzzles.crosswise.app/${id}`
     return (await this.makeWebRequest(url)).responseXML
   }
 }
