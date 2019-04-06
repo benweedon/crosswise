@@ -5,7 +5,7 @@
         v-for="cell in puzzle.cells"
         :key="`${cell.x},${cell.y}`"
         :cell="cell"
-        :selected="selectedCell.x == cell.x && selectedCell.y == cell.y"
+        :selectedCell="selectedCell"
         :charSet="puzzle.charSet"
         @cellFocused="onCellFocused"
         @arrowPressed="onArrowPressed"></PuzzleCell>

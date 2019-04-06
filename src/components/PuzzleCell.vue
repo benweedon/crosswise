@@ -20,7 +20,7 @@ export default {
   name: 'PuzzleCell',
   props: {
     cell: Object,
-    selected: Boolean,
+    selectedCell: Object,
     charSet: Array
   },
   data: function () {
@@ -39,6 +39,9 @@ export default {
         gridColumn: `${this.cell.x + 1} / ${this.cell.x + 2}`,
         gridRow: `${this.cell.y + 1} / ${this.cell.y + 2}`
       }
+    },
+    selected: function () {
+      return this.cell.x === this.selectedCell.x && this.cell.y === this.selectedCell.y
     },
     tabIndex: function () {
       return this.selected ? 0 : -1
