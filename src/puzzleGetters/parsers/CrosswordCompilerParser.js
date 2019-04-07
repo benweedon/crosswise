@@ -21,7 +21,7 @@ function wordToCellsList (word) {
   tokens[0] = Number(tokens[0])
   tokens[1] = Number(tokens[1])
   for (let i = tokens[0]; i <= tokens[1]; ++i) {
-    cells.push({ [rangeField]: i, [constantField]: constant })
+    cells.push({ [rangeField]: i - 1, [constantField]: constant - 1 })
   }
 
   return cells

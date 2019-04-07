@@ -21,6 +21,7 @@ export default {
   props: {
     cell: Object,
     selectedCell: Object,
+    selectedClue: Object,
     charSet: Array
   },
   data: function () {
@@ -31,7 +32,8 @@ export default {
   computed: {
     classObject: function () {
       return {
-        selected: this.selected
+        selected: this.selected,
+        inSelectedClue: this.inSelectedClue
       }
     },
     styleObject: function () {
@@ -41,7 +43,17 @@ export default {
       }
     },
     selected: function () {
-      return this.cell.x === this.selectedCell.x && this.cell.y === this.selectedCell.y
+      return (this.cell.x === this.selectedCell.x) &&
+             (this.cell.y === this.selectedCell.y)
+    },
+    inSelectedClue: function () {
+      for (const cell of this.selectedClue.cells) {
+        if ((cell.x === this.cell.x) &&
+            (cell.y === this.cell.y)) {
+          return true
+        }
+      }
+      return false
     },
     tabIndex: function () {
       return this.selected ? 0 : -1
@@ -67,6 +79,11 @@ export default {
       if (newVal) {
         this.$refs.input.focus()
       }
+    }
+  },
+  mounted: function () {
+    if (this.selected) {
+      this.$refs.input.focus()
     }
   }
 }
@@ -94,8 +111,12 @@ export default {
 
   caret-color: transparent;
 
-  &.selected {
-    background: red;
+  &.inSelectedClue {
+    background: orange;
+
+    &.selected {
+      background: red;
+    }
   }
 }
 .closedCell {

@@ -4,6 +4,7 @@
       <PuzzleCell
         v-for="cell in puzzle.cells"
         :key="`${cell.x},${cell.y}`"
+        :selectedClue="selectedClue"
         :cell="cell"
         :selectedCell="selectedCell"
         :charSet="puzzle.charSet"
@@ -26,7 +27,8 @@ export default {
   },
   data: function () {
     return {
-      selectedCell: {}
+      selectedCell: {},
+      cluesListIndex: 0
     }
   },
   computed: {
@@ -55,6 +57,32 @@ export default {
       let minY = Math.min.apply(null, yValues)
       let maxY = Math.max.apply(null, yValues)
       return maxY - minY + 1
+    },
+    firstCell: function () {
+      // TODO: Come up with a better way of getting the first cell.
+      return this.puzzle.cells[0]
+    },
+    availableCluesLists: function () {
+      let cluesLists = []
+      for (const cluesList of this.puzzle.cluesLists) {
+        if (this.cluesListContainsCell(cluesList, this.selectedCell)) {
+          cluesLists.push(cluesList)
+        }
+      }
+      return cluesLists
+    },
+    selectedClue: function () {
+      // TODO: Guarantee that the index will always be within the list.
+      const cluesList = this.availableCluesLists[this.cluesListIndex]
+      for (const clue of cluesList.clues) {
+        for (const cell of clue.cells) {
+          if ((cell.x === this.selectedCell.x) &&
+              (cell.y === this.selectedCell.y)) {
+            return clue
+          }
+        }
+      }
+      throw Error('unreachable')
     }
   },
   methods: {
@@ -85,7 +113,21 @@ export default {
           return
         }
       }
+    },
+    cluesListContainsCell: function (cluesList, cellToMatch) {
+      for (const clue of cluesList.clues) {
+        for (const cell of clue.cells) {
+          if ((cell.x === cellToMatch.x) &&
+              (cell.y === cellToMatch.y)) {
+            return true
+          }
+        }
+      }
+      return false
     }
+  },
+  beforeMount: function () {
+    this.selectedCell = this.firstCell
   }
 }
 </script>
