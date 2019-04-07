@@ -9,7 +9,8 @@
         :selectedCell="selectedCell"
         :charSet="puzzle.charSet"
         @cellFocused="onCellFocused"
-        @arrowPressed="onArrowPressed"></PuzzleCell>
+        @arrowPressed="onArrowPressed"
+        @spacePressed="onSpacePressed"></PuzzleCell>
     </div>
   </div>
 </template>
@@ -114,6 +115,13 @@ export default {
         }
       }
     },
+    onSpacePressed: function () {
+      let newIndex = this.cluesListIndex + 1
+      if (newIndex >= this.availableCluesLists.length) {
+        newIndex = 0
+      }
+      this.cluesListIndex = newIndex
+    },
     cluesListContainsCell: function (cluesList, cellToMatch) {
       for (const clue of cluesList.clues) {
         for (const cell of clue.cells) {
@@ -124,6 +132,13 @@ export default {
         }
       }
       return false
+    }
+  },
+  watch: {
+    selectedCell: function (newVal) {
+      if (this.cluesListIndex >= this.availableCluesLists.length) {
+        this.cluesListIndex = 0
+      }
     }
   },
   beforeMount: function () {

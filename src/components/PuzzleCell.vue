@@ -9,6 +9,7 @@
       :tabindex="tabIndex"
       @input="handleInput"
       @keydown.arrow-up.arrow-right.arrow-down.arrow-left="$emit('arrowPressed', $event)"
+      @keydown.space="$emit('spacePressed')"
       @focus="$emit('cellFocused', cell)">
 
     <div v-else class="cellWrapped closedCell"></div>
